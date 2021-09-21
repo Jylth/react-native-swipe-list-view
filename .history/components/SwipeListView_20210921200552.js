@@ -174,29 +174,24 @@ class SwipeListView extends PureComponent {
 
     renderCell(VisibleComponent, HiddenComponent, key, item, shouldPreviewRow) {
         if (!HiddenComponent) {
-            const cellPropsBuilder = (cellKey) => {
-                return {
-                    ref: row => (this._rows[cellKey] = row),
-                    onRowOpen: toValue => this.onRowOpen(cellKey, toValue),
-                    onRowDidOpen: toValue =>
-                        this.props.onRowDidOpen &&
-                        this.props.onRowDidOpen(cellKey, this._rows, toValue),
-                    onRowClose: () =>
-                        this.props.onRowClose &&
-                        this.props.onRowClose(cellKey, this._rows),
-                    onRowDidClose: () =>
-                        this.props.onRowDidClose &&
-                        this.props.onRowDidClose(cellKey, this._rows),
-                    onRowPress: () => this.onRowPress(),
-                    setScrollEnabled: enable => this.setScrollEnabled(enable),
-                    swipeGestureBegan: () => this.rowSwipeGestureBegan(cellKey),
-                    swipeGestureEnded: (_, data) =>
-                        this.rowSwipeGestureEnded(cellKey, data)
-                }
-            }
             return React.cloneElement(VisibleComponent, {
                 ...VisibleComponent.props,
-                cellPropsBuilder,
+                ref: row => (this._rows[key] = row),
+                onRowOpen: toValue => this.onRowOpen(key, toValue),
+                onRowDidOpen: toValue =>
+                    this.props.onRowDidOpen &&
+                    this.props.onRowDidOpen(key, this._rows, toValue),
+                onRowClose: () =>
+                    this.props.onRowClose &&
+                    this.props.onRowClose(key, this._rows),
+                onRowDidClose: () =>
+                    this.props.onRowDidClose &&
+                    this.props.onRowDidClose(key, this._rows),
+                onRowPress: () => this.onRowPress(),
+                setScrollEnabled: enable => this.setScrollEnabled(enable),
+                swipeGestureBegan: () => this.rowSwipeGestureBegan(key),
+                swipeGestureEnded: (_, data) =>
+                    this.rowSwipeGestureEnded(key, data),
             });
         } else {
             return (
